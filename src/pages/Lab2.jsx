@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { data } from "../data/module-data.js";
 import PersonProfile from "../components/PersonProfile.jsx";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { useContext } from "react";
+import AppContext from "../data/AppContext.jsx";
 
 function Lab2() {
+  const context = useContext(AppContext);
+  const data = context.items;
   const { id } = useParams();
   const navigate = useNavigate();
-  let person = data[id - 1];
+  let person = data.find((item) => item.id == id);
   let newId = null;
 
   return (
@@ -34,12 +37,7 @@ function Lab2() {
         </Button>
       </div>
       {person ? (
-        <PersonProfile
-          key={person.id}
-          name={person.name}
-          dateOfBirth={person.dateOfBirth}
-          eyesColor={person.eyesColor}
-        />
+        <PersonProfile key={person.id} person={person} />
       ) : (
         <div>No person found for given id!</div>
       )}

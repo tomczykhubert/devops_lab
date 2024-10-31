@@ -1,38 +1,15 @@
 import React from "react";
-import { data } from "../data/module-data.js";
 import PersonProfile from "../components/PersonProfile.jsx";
+import { useContext } from "react";
+import AppContext from "../data/AppContext.jsx";
 
 function Lab1() {
-  const shuffle = (array) => {
-    let currentIndex = array.length;
-    let randomIndex;
-
-    while (currentIndex != 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
-    }
-
-    return array;
-  };
-  let shuffledData = shuffle(data);
+  const context = useContext(AppContext);
+  const data = context.items;
   return (
     <div className="row px-5">
-      {shuffledData.map((element) => (
-        <div className="col-4">
-          <div className="mb-4">
-            <PersonProfile
-              key={element.id}
-              name={element.name}
-              dateOfBirth={element.dateOfBirth}
-              eyesColor={element.eyesColor}
-            />
-          </div>
-        </div>
+      {data.map((element) => (
+        <PersonProfile key={element.id} person={element} columns="col-4" />
       ))}
     </div>
   );
